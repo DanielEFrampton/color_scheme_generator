@@ -1,0 +1,37 @@
+<h1>Hugh's Color Emporium</h1>
+
+<%= form_tag '/' do %>
+    <%= label_tag :hex_value, 'Hex Value' %>
+    <input id='hex_value' name='hex_value' type='color'>
+
+    Choose Palette Type:
+    <%= label_tag 'palette_type_complement', 'Complement' %>
+    <%= radio_button_tag :palette_type, :complement, true %>
+    <%= label_tag 'palette_type_triad', 'Triad' %>
+    <%= radio_button_tag :palette_type, :triad %>
+    <%= label_tag 'palette_type_tetrad', 'Tetrad' %>
+    <%= radio_button_tag :palette_type, :tetrad %>
+    <%= label_tag 'palette_type_split_complement', 'Split Complement' %>
+    <%= radio_button_tag :palette_type, :split_complement %>
+    <%= label_tag 'palette_type_analogous', 'Analogous' %>
+    <%= radio_button_tag :palette_type, :analogous %>
+    <%= label_tag 'palette_type_monochromatic', 'Monochromatic' %>
+    <%= radio_button_tag :palette_type, :monochromatic %>
+
+    <%= submit_tag 'Generate' %>
+<% end %>
+
+<% if @palette %>
+    <div class='palette'>
+        <% @palette.each_with_index do |color, index| %>
+            <div class='color'>
+                <div class='color-sample' id='color-<%= index %>-sample' style='background-color: <%= color.to_hex %>'></div>
+                Hex: <%= color.to_hex %>
+                Hex8: <%= color.to_hex8 %>
+                RGB: <%= color.to_rgb %>
+                HSV: <%= color.to_hsv %>
+                CSS Name: <%= color.to_name %>
+            </div>
+        <% end %>
+    </div>
+<% end %>
