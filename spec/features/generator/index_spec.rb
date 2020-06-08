@@ -7,13 +7,16 @@ RSpec.describe 'When a user visits the root path', type: :feature do
         end
 
         it 'they see a text field to input a hex value' do
-            expect(page).to have_field('#hex-value')
+            expect(page).to have_field('Hex Value')
         end
 
         it 'they see toggle buttons for several palette types' do
-            expect(page).to have_select 'Palette Type',
-                selected: 'Complement'
-                with_options: ['Complement', 'Triad', 'Tetrad', 'Split Complement', 'Analogous', 'Monochromatic']
+            expect(page).to have_checked_field 'Complement'
+            expect(page).to have_unchecked_field 'Triad'
+            expect(page).to have_field 'Tetrad'
+            expect(page).to have_field 'Split Complement'
+            expect(page).to have_field 'Analogous'
+            expect(page).to have_field 'Monochromatic'
         end
 
         it 'they see a button to generate a palette' do
@@ -24,7 +27,7 @@ RSpec.describe 'When a user visits the root path', type: :feature do
             before(:each) do
                 fill_in 'Hex Value', with: '#000080'
                 choose 'Triad'
-                click 'Generate'
+                click_on 'Generate'
             end
 
             it 'they see colors for that non-default palette type' do
@@ -39,11 +42,11 @@ RSpec.describe 'When a user visits the root path', type: :feature do
         describe 'and inputs a valid hex value and select submit with default palette option' do
             before(:each) do
                 fill_in 'Hex Value', with: '#000080'
-                click 'Generate'
+                click_on 'Generate'
             end
 
             it 'they remain on that route' do
-                expect(path).to equal('/')
+                expect(current_path).to eq('/')
             end
 
             it 'they see each color in the generated palette and its identifying information' do
@@ -61,7 +64,7 @@ RSpec.describe 'When a user visits the root path', type: :feature do
                         expect(page).to have_content 'navy'
                     end
 
-                    within '.color:second-of-type' do
+                    within '.color:nth-of-type(2)' do
                         expect(page).to have_content 'HSV'
                         expect(page).to have_content "hsv(60, 100%, 50%)"
                         expect(page).to have_content 'RGB'
